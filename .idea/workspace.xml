@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="570a46ad-d734-4d50-a189-7624b7e958e6" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/profanapp.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/profanapp.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/routes.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/routes.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -28,7 +28,11 @@
       </file>
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Controller/SupportController.php">
-          <provider selected="true" editor-type-id="text-editor" />
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="270">
+              <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
+            </state>
+          </provider>
         </entry>
       </file>
     </leaf>
@@ -161,8 +165,8 @@
     </include_path>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="width" value="956" />
-    <option name="height" value="1050" />
+    <option name="width" value="836" />
+    <option name="height" value="1020" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="1" id="Add" />
@@ -182,7 +186,7 @@
             <path>
               <item name="profanapp" type="b2602c69:ProjectViewProjectNode" />
               <item name="profanapp" type="462c0819:PsiDirectoryNode" />
-              <item name="config" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="profanapp" type="b2602c69:ProjectViewProjectNode" />
@@ -194,6 +198,12 @@
               <item name="profanapp" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="Controller" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="profanapp" type="b2602c69:ProjectViewProjectNode" />
+              <item name="profanapp" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Entity" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -247,18 +257,18 @@
       <workItem from="1554057665333" duration="96000" />
       <workItem from="1554057818351" duration="336000" />
       <workItem from="1554058207750" duration="1593000" />
-      <workItem from="1554059972101" duration="450000" />
+      <workItem from="1554059972101" duration="1675000" />
+      <workItem from="1554104640408" duration="3189000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="9648000" />
+    <option name="totallyTimeSpent" value="14062000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="956" height="1050" extended-state="0" />
-    <editor active="true" />
+    <frame x="0" y="0" width="836" height="1020" extended-state="0" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2869757" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2884131" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -271,7 +281,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="8" />
       <window_info anchor="bottom" id="Version Control" order="9" />
-      <window_info anchor="bottom" id="Terminal" order="10" visible="true" weight="0.3261105" />
+      <window_info anchor="bottom" id="Terminal" order="10" visible="true" weight="0.33556297" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -338,7 +348,11 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Controller/SupportController.php">
-      <provider selected="true" editor-type-id="text-editor" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
+        </state>
+      </provider>
     </entry>
   </component>
 </project>
