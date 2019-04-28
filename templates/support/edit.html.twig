@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1>What about editing a support ?</h1>
+    {{ form_start(editSupportForm) }}
+    {{ form_widget(editSupportForm) }}
+    <button type="submit" class="btn btn-primary">Edit !</button>
+    {{ form_end(editSupportForm) }}
+
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+
