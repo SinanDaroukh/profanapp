@@ -6,6 +6,7 @@ use App\Entity\Support;
 use App\Form\SupportType;
 use App\Repository\SupportRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,13 +19,19 @@ class SupportController extends AbstractController
      * @Route("/support", name="app_support")
      * @Route("/support/list", name="app_support_list")
      * @param SupportRepository $repository
+     * @param PaginatorInterface $paginator
+     * @param Request $request
      * @return Response
      */
-    public function index(SupportRepository $repository)
+    public function index(SupportRepository $repository, PaginatorInterface $paginator ,Request $request )
     {
-        $repository = $repository->findAll();
+        $supports = $paginator->paginate(
+            $repository->findAllQuery(),
+            $request->query->getInt('page',1),
+            12
+        );
         return $this->render('support/index.html.twig', [
-            'supports' => $repository,
+            'supports' => $supports,
         ]);
     }
 
