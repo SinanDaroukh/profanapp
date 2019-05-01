@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MediumController!{% endblock %}
+
+{% block body %}
+
+    {{ form_start(formSearch) }}
+
+    {{ form_row(formSearch.recherche, {'attr': {'placeholder': "Rechercher par nom"}}) }}
+
+    {{ form_end(formSearch) }}
+
+    <table>
+    {% for element in medium %}
+        <tr>
+            <td>{{ element.nom }}</td>
+            <td>{{ element.description }}</td>
+            <td>{{ element.type }}</td>
+            <td>{{ element.localisation }}</td>
+            <td>
+                <form action="{{ path('form_edit',{'id' : element.id}) }}">
+                    <input type="submit" value="Modifier"/>
+                </form>
+            </td>
+            <td>
+                <form action="{{ path('form_suppr',{'id' : element.id}) }}">
+                    <input type="submit" value="Supprimer"/>
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+    </table>
+
+
+    <h1>Modification de la base médium</h1>
+
+        <form action="{{ path('form_add') }}">
+            <input type="submit" value="Ajout" />
+        </form>
+
+
+
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{%  form_theme formMedium 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+
+    {% if form=='add'%}
+        {% if editMode %}
+            <h1>Modification</h1>
+        {% else %}
+            <h1>Ajout</h1>
+        {% endif %}
+    {% elseif form=='suppr' %}
+        <h1>Suppression</h1>
+    {% endif %}
+
+    {{ form_start(formMedium) }}
+
+    {{ form_row(formMedium.nom, {'attr': {'placeholder': "Nom de l'article"}}) }}
+    {{ form_row(formMedium.description, {'attr': {'placeholder': "Description de l'article"}}) }}
+    {{ form_row(formMedium.type,  {'attr': {'placeholder': "Description de l'article"}}) }}
+    {{ form_row(formMedium.localisation, {'attr': {'placeholder': "Localisation de l\'article"}}) }}
+    {{ form_row(formMedium.codebarre, {'attr': {'placeholder': "Code barre de l\'article"}}) }}
+
+
+    {{ form_end(formMedium) }}
+
+{% endblock %}
+
