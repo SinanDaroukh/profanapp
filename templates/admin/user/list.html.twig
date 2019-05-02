@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block body %}
+    <h1 class="text-center">Users Administration Control Panel </h1>
+
+    <br>
+    <table class="table table-hover text-center">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Firstname</th>
+                <th scope="col">Email</th>
+                <th scope="col">Roles</th>
+                <th scope="col"><a class=" btn btn-outline-info" href="{{ path('app_create_user') }}"> + Add a New User</a></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.firstName }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.rolesToString}}</td>
+                <td>
+                        <a type="button" class="text-success btn btn-outline-success" href="{{ path('app_view_user', {'id': user.id }) }}" >View</a>
+                        <a type="button" class="text-info btn btn-outline-info" href="{{ path('app_edit_user', {'id': user.id }) }}">Edit </a>
+                        <a type="button" class="text-danger btn btn-outline-danger" href="{{ path('app_delete_user', {'id': user.id }) }}">Delete</a>
+
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+
