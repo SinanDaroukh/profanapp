@@ -5,7 +5,6 @@
 {% block body %}
     <h1 class="text-center">Support Control Panel</h1>
 
-
     <div class="jumbotron">
         <div class="container">
             {{ form_start(form) }}
@@ -62,8 +61,7 @@
                             <br>
                             <div class="text-center">
                                 <a type="button" class="text-primary btn btn-outline-primary" href="{{ path('app_support_view',{'id': support.id }) }}" >Consulter</a>
-                                <a type="button" class="text-primary btn btn-outline-primary" href="{{ path('app_support_view',{'id': support.id }) }}" >-</a>
-                                <a type="button" class="text-primary btn btn-outline-primary" href="{{ path('app_support_view',{'id': support.id }) }}" >+</a>
+                                <a type="button" class="text-primary btn btn-outline-primary" href="{{ path('app_support_edit_quantity',{'id': support.id }) }}" >Modifier la quantité</a>
                             </div>
                         </div>
                     </div>

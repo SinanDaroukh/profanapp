@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Support;
 use App\Entity\SupportSearch;
+use App\Form\QuantitySupportType;
 use App\Form\SupportSearchType;
 use App\Form\SupportType;
 use App\Repository\SupportRepository;
@@ -135,6 +136,43 @@ class  SupportController extends AbstractController
         }
 
         return $this->render('support/edit.html.twig', [
+            'editSupportForm' => $form->createView(),
+            'support' => $support,
+        ]);
+
+    }
+
+    /**
+     * @Route("/support/edit/quantity/{id}", name="app_support_edit_quantity")
+     * @param Support $support
+     * @param EntityManagerInterface $entityManager
+     * @param Request $request
+     * @return Response
+     */
+    public function editQuantity(Support $support, EntityManagerInterface $entityManager, Request $request){
+
+        $form = $this->createForm(QuantitySupportType::class, $support);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()){
+
+            $support = $form->getData();
+
+            if ( $support->getQuantity() >= 0 ){
+
+                $entityManager->persist($support);
+                $entityManager->flush();
+
+                $this->addFlash('success','Support successfully updated ! Well done, Agent Molly !');
+
+                return $this->redirectToRoute('app_support');
+            }
+            else {
+                $this->addFlash('warning', 'Quantité non valide');
+            }
+        }
+
+        return $this->render('support/edit_quantity.html.twig', [
             'editSupportForm' => $form->createView(),
             'support' => $support,
         ]);
