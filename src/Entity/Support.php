@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="App\Repository\SupportRepository")
  * @Vich\Uploadable()
  */
-class Support
+class   Support
 {
     const GRAMMAGE = [
         80, 90, 100, 110, 135, 170, 175, 250, 300, 350, 'aucun'

@@ -8,6 +8,11 @@
 
 namespace App\Controller;
 
+use App\Repository\LogRepository;
+use Knp\Component\Pager\PaginatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -28,10 +33,38 @@ class DefaultController extends AbstractController
 
     /**
      * @Route("/home", name="app_homepage")
+     * @param LogRepository $logRepository
+     * @return Response
      */
-    public function homepage(){
+    public function homepage(LogRepository $logRepository){
 
-        return $this->render('home.html.twig');
+        $log = $logRepository->findFiveMoreRecent();
+
+        return $this->render('home.html.twig', [
+            'logs' => $log
+        ]);
+
+    }
+
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     * @Route("/log", name="app_log")
+     * @param LogRepository $logRepository
+     * @param PaginatorInterface $paginator
+     * @param Request $request
+     * @return Response
+     */
+    public function log(LogRepository $logRepository,  PaginatorInterface $paginator, Request $request ){
+
+        $log = $paginator->paginate(
+            $logRepository->findAllQuery(),
+            $request->query->getInt('page',1),
+            25
+        );
+
+        return $this->render('/admin/log.html.twig', [
+            'logs' => $log
+        ]);
 
     }
 }

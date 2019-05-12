@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Log;
 use App\Entity\Support;
 use App\Entity\SupportSearch;
 use App\Form\QuantitySupportType;
@@ -27,7 +28,7 @@ class  SupportController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function index(SupportRepository $repository, PaginatorInterface $paginator ,Request $request )
+    public function index(SupportRepository $repository, PaginatorInterface $paginator , Request $request )
     {
         $search = new SupportSearch();
         $form = $this->createForm(SupportSearchType::class, $search);
@@ -70,6 +71,7 @@ class  SupportController extends AbstractController
      * @Route("/support/create", name="app_support_create")
      * @param EntityManagerInterface $entityManager
      * @param Request $request
+     * @param SupportRepository $supportRepository
      * @return RedirectResponse|Response
      */
     public function create(EntityManagerInterface $entityManager, Request $request){
@@ -81,8 +83,11 @@ class  SupportController extends AbstractController
 
             /** @var Support $support */
             $support = $form->getData();
-
+            $user = $this->getUser();
             $entityManager->persist($support);
+
+            $log = new Log($user->getId(), $support->getId(), $support->getName(), $user->getFirstname(), $support->getQuantity(), 'success');
+            $entityManager->persist($log);
             $entityManager->flush();
 
             $this->addFlash('success','Support successfully created ! Well done, Agent Polly !');
@@ -103,6 +108,9 @@ class  SupportController extends AbstractController
      */
     public function delete(Support $support, EntityManagerInterface $entityManager){
 
+        $user = $this->getUser();
+        $log = new Log($user->getId(), $support->getId(), $support->getName(), $user->getFirstname(), $support->getQuantity(), 'danger');
+        $entityManager->persist($log);
         $entityManager->remove($support);
         $entityManager->flush();
 
@@ -121,12 +129,14 @@ class  SupportController extends AbstractController
     public function edit(Support $support, EntityManagerInterface $entityManager, Request $request){
 
         $form = $this->createForm(SupportType::class, $support);
-
+        $user = $this->getUser();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()){
 
             $support = $form->getData();
 
+            $log = new Log($user->getId(), $support->getId(), $support->getName(), $user->getFirstname(), $support->getQuantity(), 'secondary');
+            $entityManager->persist($log);
             $entityManager->persist($support);
             $entityManager->flush();
 
@@ -152,7 +162,7 @@ class  SupportController extends AbstractController
     public function editQuantity(Support $support, EntityManagerInterface $entityManager, Request $request){
 
         $form = $this->createForm(QuantitySupportType::class, $support);
-
+        $user = $this->getUser();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()){
 
@@ -160,6 +170,8 @@ class  SupportController extends AbstractController
 
             if ( $support->getQuantity() >= 0 ){
 
+                $log = new Log($user->getId(), $support->getId(), $support->getName(), $user->getFirstname(), $support->getQuantity(), 'secondary');
+                $entityManager->persist($log);
                 $entityManager->persist($support);
                 $entityManager->flush();
 
