@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Support;
+use App\Entity\SupportSearch;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -20,11 +21,32 @@ class SupportRepository extends ServiceEntityRepository
         parent::__construct($registry, Support::class);
     }
 
-    public function findAllQuery() : Query
+    public function findAllQuery(SupportSearch $search) : Query
     {
-        return $this->createQueryBuilder('s')
-            ->getQuery()
-            ;
+        $query = $this->createQueryBuilder('s');
+
+        if ( $search->getBarcode()){
+            $query = $query
+                        ->andWhere('s.barcode = :barcode')
+                        ->setParameter('barcode', $search->getBarcode());
+        }
+
+        if ( $search->getName()){
+            $query = $query
+                ->andWhere('s.name LIKE \'%' . $search->getName() . '%\'');
+        }
+        if ( $search->getType()){
+            $query = $query
+                ->andWhere('s.type = :type')
+                ->setParameter('type', $search->getType());
+        }
+        if ( $search->getGrammage()){
+            $query = $query
+                ->andWhere('s.grammage = :grammage')
+                ->setParameter('grammage', $search->getGrammage());
+        }
+
+        return $query->getQuery();
     }
 
     // /**

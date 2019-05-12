@@ -5,38 +5,75 @@
 {% block body %}
     <h1 class="text-center">Support Control Panel</h1>
 
-    <br>
-    <table class="table table-hover text-center">
-        <thead>
-        <tr>
-            <th scope="col">Id</th>
-            <th scope="col">Name</th>
-            <th scope="col">Quantity</th>
-            <th scope="col">
-                {% if is_granted('ROLE_DATA_ADMIN') %}
-                <a class=" btn btn-outline-info" href="{{ path('app_support_create') }}"> + Add a New Support</a>
-                {% endif %}
-            </th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for support in supports %}
-            <tr>
-                <td>{{ support.id }}</td>
-                <td>{{ support.name }}</td>
-                <td>{{ support.quantity }}</td>
-                <td>
-                    <a type="button" class="text-success btn btn-outline-success" href="{{ path('app_support_view',{'id': support.id }) }}" >View</a>
-                    {% if is_granted('ROLE_DATA_ADMIN') %}
-                    <a type="button" class="text-info btn btn-outline-info" href="{{ path('app_support_edit', {'id': support.id }) }}">Edit </a>
-                    <a type="button" class="text-danger btn btn-outline-danger" href="{{ path('app_support_delete', {'id': support.id }) }}">Delete</a>
-                    {% endif %}
 
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class="jumbotron">
+        <div class="container">
+            {{ form_start(form) }}
+                <div class="form-row align-items-end">
+                    <div class="col">
+                        {{ form_row(form.barcode) }}
+                    </div>
+                    <div class="col">
+                        {{ form_row(form.name) }}
+                    </div>
+                    <div class="col">
+                        {{ form_row(form.grammage) }}
+                    </div>
+                    <div class="col">
+                        {{ form_row(form.type) }}
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <button class="btn btn-primary">Research</button>
+                        </div>
+                    </div>
+                </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+        {% if supports is not empty %}
+            <div class="row flex">
+                {% for support in supports %}
+                <div class="col-4">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title text-right">
+                                Support n°{{ support.id }}
+                               <small><div>Code Barre :<br> {{ support.barcode }}</div></small>
+                            </h5>
+                            {% if support.filename %}
+                                <img src="{{ vich_uploader_asset(support, 'imagefile') | imagine_filter('thumb')}}" alt="card-img-top" style="width: 100%; height:auto;">
+                            {% else %}
+                                <img src="https://picsum.photos/200?random={{ support.id }}" alt="card-img-top" style="width: 100%; height:auto;">
+                            {% endif %}
+                            <br><br>
+                            <div class="text-center">
+                                <div>Nom : {{ support.name }}</div>
+                                <div>Grammage : {{ support.getGrammageAsString(support.grammage) }}</div>
+                                <div>Type : {{ support.getTypeAsString(support.type) }}</div>
+                                <div>Quantité : {{ support.quantity }} </div>
+                                {% if support.quantity == 0 %}
+                                    <span class="badge badge-danger">STOCK EPUISE</span>
+                                {% elseif support.quantity < 10 %}
+                                        <span class="badge badge-warning">STOCK PRESQUE EPUISE</span>
+                                {% endif %}
+                            </div>
+                            <br>
+                            <div class="text-center">
+                                <a type="button" class="text-primary btn btn-outline-primary" href="{{ path('app_support_view',{'id': support.id }) }}" >Consulter</a>
+                                <a type="button" class="text-primary btn btn-outline-primary" href="{{ path('app_support_view',{'id': support.id }) }}" >-</a>
+                                <a type="button" class="text-primary btn btn-outline-primary" href="{{ path('app_support_view',{'id': support.id }) }}" >+</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <h4 class="text-center">Aucune donnée n'a été trouvée ...</h4>
+        {% endif %}
+
 
     <div align="center" class="pagination">
         {{ knp_pagination_render(supports) }}

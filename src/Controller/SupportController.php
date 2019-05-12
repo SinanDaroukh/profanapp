@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Support;
+use App\Entity\SupportSearch;
+use App\Form\SupportSearchType;
 use App\Form\SupportType;
 use App\Repository\SupportRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -13,11 +15,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class SupportController extends AbstractController
+class  SupportController extends AbstractController
 {
     /**
      * @Route("/support", name="app_support")
      * @Route("/support/list", name="app_support_list")
+     * @Route("/admin/support", name="app_support_admin")
      * @param SupportRepository $repository
      * @param PaginatorInterface $paginator
      * @param Request $request
@@ -25,14 +28,28 @@ class SupportController extends AbstractController
      */
     public function index(SupportRepository $repository, PaginatorInterface $paginator ,Request $request )
     {
+        $search = new SupportSearch();
+        $form = $this->createForm(SupportSearchType::class, $search);
+        $form->handleRequest($request);
+
         $supports = $paginator->paginate(
-            $repository->findAllQuery(),
+            $repository->findAllQuery($search),
             $request->query->getInt('page',1),
             12
         );
-        return $this->render('support/index.html.twig', [
-            'supports' => $supports,
-        ]);
+
+        if ( $request->getRequestUri() == "/admin/support" and ( array_key_exists('ROLE_DATA_ADMIN',array_flip($this->getUser()->getRoles())) or array_key_exists('ROLE_ADMIN',array_flip($this->getUser()->getRoles())))){
+            return $this->render('support/admin.html.twig', [
+                'supports' => $supports,
+                'form' => $form->createView()
+            ]);
+        }
+        else {
+            return $this->render('support/index.html.twig', [
+                'supports' => $supports,
+                'form' => $form->createView()
+            ]);
+        }
     }
 
     /**

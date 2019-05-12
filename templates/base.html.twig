@@ -16,11 +16,11 @@
 
     <body>
     {% if is_granted('ROLE_USER') %}
-        <div class="navbar navbar-expand-lg  navbar-light bg-light">
-            <a class="navbar-brand" href="#">Gestion de Stock ProFan</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+    <div class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="#">Gestion de Stock - Profan</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
             <div class="collapse navbar-collapse" id="navbarColor01">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
@@ -37,7 +37,7 @@
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Admin Interface</a>
                         <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
                             {% if is_granted('ROLE_DATA_ADMIN') %}
-                            <a class="dropdown-item" href="{{ path('app_support') }}">Manage Supports</a>
+                            <a class="dropdown-item" href="{{ path('app_support_admin') }}">Manage Supports</a>
                             <a class="dropdown-item" href="#">Manage Mediums</a>
                             {% endif %}
                             {% if is_granted('ROLE_USER_ADMIN') %}
@@ -57,34 +57,37 @@
             </div>
         </div>
 
-    <div class="page-header example-wrapper">
+        <div class="page-header example-wrapper">
 
 
-        {% for label, flashes in app.session.flashbag.all %}
-            {% for message in flashes %}
-                {% if ( label == 'success' ) %}
-                <div class="alert alert-success text-center" role="alert">
-                    {{ message }}
-                </div>
-                {% elseif ( label == 'error' ) %}
-                    <div class="alert alert-danger text-center" role="alert">
+            {% for label, flashes in app.session.flashbag.all %}
+                {% for message in flashes %}
+                    {% if ( label == 'success' ) %}
+                    <div class="alert alert-success text-center" role="alert">
                         {{ message }}
                     </div>
-                {% elseif ( label == 'warning' ) %}
-                    <div class="alert alert-warning text-center" role="alert">
-                        {{ message }}
-                    </div>
-                {% endif %}
+                    {% elseif ( label == 'error' ) %}
+                        <div class="alert alert-danger text-center" role="alert">
+                            {{ message }}
+                        </div>
+                    {% elseif ( label == 'warning' ) %}
+                        <div class="alert alert-warning text-center" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
             {% endfor %}
-        {% endfor %}
 
-        {% block body %}{% endblock %}
-    </div>
+                {% block body %}{% endblock %}
+
+        </div>
+
 
     {% else %}
-        <div class="container-fluid bg-info text-center text-light">
-            <h1 class="display-1 text-uppercase font-weight-bold">Storm List</h1>
-            <h2><small>Be faster than a hurricane !</small></h2>
+
+        <div class="container-fluid bg-primary text-center text-light">
+            <h1 class="display-1 text-uppercase font-weight-bold">Storage Manager</h1>
+            <h2><small>All your warehouse in your pocket !</small></h2>
             <br>
             <div class="row">
                 <div class="col-sm-3 "></div>
@@ -95,11 +98,13 @@
                     {% endif %}
                     <div id="accordion">
                         <div class="card">
-                            <div class="card-header">
+                           <!--
+                           <div class="card-header">
                                 <button type="button" class="btn btn-primary btn-block card-link text-uppercase font-weight-bold" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
                                     Log In
                                 </button>
-                            </div>
+                            </div>Email
+                            -->
                             <div id="collapseOne" class="collapse show text-dark ">
                                 <div class="card-body">
                                     <form action="{{ path('app_login') }}" method="post" name="logForm" id="logForm">
@@ -123,25 +128,27 @@
                                 </div>
                             </div>
                         </div>
+                        <!--
                         <div class="card">
-                            <div class="card-header">
-                                <button type="button"  class="btn btn-outline-warning btn-block collapsed card-link text-uppercase font-weight-bold" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-                                    Forgot Password ?
-                                </button>
-                            </div>
-                            <div id="collapseTwo" class="collapse text-dark">
-                                <div class="card-body">
-                                    <form method="post" name="inscriptionForm" id="inscriptionForm">
-                                        <div class="form-group">
-                                            <label for="email">Email address :</label>
-                                            <input type="email" class="form-control" name="email" id="email">
-                                        </div>
-                                        <div class="text-center" ><button type="submit" class="btn btn-outline-info">Forgot Password ?</button></div>
-                                        <input type="hidden" name="_ijt" value="signIn">
-                                    </form>
-                                </div>
-                            </div>
+                             <div class="card-header">
+                                 <button type="button"  class="btn btn-outline-warning btn-block collapsed card-link text-uppercase font-weight-bold" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                                     Forgot Password ?
+                                 </button>
+                             </div>
+                             <div id="collapseTwo" class="collapse text-dark">
+                                 <div class="card-body">
+                                     <form method="post" name="inscriptionForm" id="inscriptionForm">
+                                         <div class="form-group">
+                                             <label for="email">Email address :</label>
+                                             <input type="email" class="form-control" name="email" id="email">
+                                         </div>
+                                         <div class="text-center" ><button type="submit" class="btn btn-outline-info">Forgot Password ?</button></div>
+                                         <input type="hidden" name="_ijt" value="signIn">
+                                     </form>
+                                 </div>
+                             </div>
                         </div>
+                        -->
                     </div>
                     <br>
                 </div>
@@ -155,60 +162,32 @@
             <div class="row">
                 <div class="col-sm-4">
                     <h3>Efficient</h3>
-                    <p>Rules your life with StormList.</p>
+                    <p>Rules your life with the Storage Manager.</p>
                     <p>Completing tasks had never been so easy and satisfying.</p>
                 </div>
                 <div class="col-sm-4">
                     <h3>Fast</h3>
-                    <p>Through StormList, you will learn how to increase your efficiency.</p>
+                    <p>Through the Storage Manager, you will learn how to increase your efficiency.</p>
                     <p>Let's show your colleague what you're made of ! </p>
                 </div>
                 <div class="col-sm-4">
                     <h3>Responsive</h3>
                     <p>Thanks to the Bootstrap Framework, this website is mobile-friendly.</p>
-                    <p>StormList can be reach from whenever you are and with whatever devices.</p>
+                    <p>The Storage Manager can be reach from whenever you are and with whatever devices.</p>
                 </div>
             </div>
         </div>
         <br>
-        <div class="container-fluid bg-info text-center">
+        <div class="container-fluid bg-primary text-center">
             <br>
-            <h1 class="display-4 text-uppercase font-weight-bold text-light">Copyright</h1>
-            <h2 class="text-light"><small>Storm List had been programed by this two handsome guys. :)</small></h2>
-            <br>
-            <div class="row">
-                <div class="col-sm-2"></div>
-                <div class="col-sm-3">
-                    <div class="card" style="width:200px">
-                        <img class="card-img-top" src="{{ asset('images/sinan.jpg') }}" alt="Card image">
-                        <div class="card-body">
-                            <h4 class="card-title">Sinan DAROUKH</h4>
-                            <p class="card-text">Original and silly student from France.</p>
-                            <a href="https://www.linkedin.com/in/sdaroukh/" target = "_blank" class="btn btn-primary">LinkedIn Profile</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-2"></div>
-                <div class="col-sm-3">
-                    <div class="card" style="width:200px">
-                        <img class="card-img-top" src="{{ asset('images/titi.jpg') }}" alt="Card image">
-                        <div class="card-body">
-                            <h4 class="card-title">Thibault PRADIER</h4>
-                            <p class="card-text">Kindest student in the whole world.</p>
-                            <a href="https://www.linkedin.com/in/thibault-pradier-13a783153/" target = "_blank" class="btn btn-primary">LinkedIn Profile</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-2"></div>
-            </div>
-            <br>
+            <h5 class="text-uppercase font-weight-bold text-light">Copyright © ISIMA - <small>by Sinan DAROUKH and Bastien Jarillon</small></h5>
             <br>
         </div>
         {% endif %}
 
 
         {% block javascripts %}
-            <script src="{{ asset('js/jquery.js') }}"></script>
+           <script src="{{ asset('js/jquery.js') }}"></script>
             <script src="{{ asset('js/popper.js') }}"></script>
             <script src="{{ asset('js/bootstrap.js') }}"></script>
         {% endblock %}

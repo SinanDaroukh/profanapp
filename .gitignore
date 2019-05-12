@@ -88,3 +88,7 @@ fabric.properties
 .idea/
 .env
 .env.test
+
+###> liip/imagine-bundle ###
+/public/media/cache/
+###< liip/imagine-bundle ###
