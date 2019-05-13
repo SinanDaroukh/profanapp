@@ -15,6 +15,7 @@
     </head>
 
     <body>
+
     {% if is_granted('ROLE_USER') %}
     <div class="navbar navbar-expand-lg navbar-dark bg-primary">
         <a class="navbar-brand" href="#">Gestion de Stock - Profan</a>
@@ -37,8 +38,8 @@
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Admin Interface</a>
                         <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
                             {% if is_granted('ROLE_DATA_ADMIN') %}
-                            <a class="dropdown-item" href="{{ path('app_support_admin') }}">Manage Supports</a>
-                            <a class="dropdown-item" href="#">Manage Mediums</a>
+                            <a class="dropdown-item" href="{{ path('app_support') }}">Manage Supports</a>
+                            <a class="dropdown-item" href="{{ path('medium') }}">Manage Mediums</a>
                             {% endif %}
                             {% if is_granted('ROLE_USER_ADMIN') %}
                                     <a class="dropdown-item" href="{{ path('app_list_user') }}">Manage Users</a>
