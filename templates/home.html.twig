@@ -37,9 +37,11 @@
             {% endfor %}
             </tbody>
         </table>
+        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_USER_ADMIN') or is_granted('ROLE_DATA_ADMIN')%}
         <div class="row align-content-between">
             <a type="button" class="text-primary btn btn-outline-primary" href="{{ path('app_log') }}" >Consulter l'historique</a>
         </div>
+        {% endif %}
     </div>
     <div class="container text-center">
         <br>
