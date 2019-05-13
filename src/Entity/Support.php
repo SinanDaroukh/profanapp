@@ -3,11 +3,16 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SupportRepository")
+ * @Vich\Uploadable()
  */
-class Support
+class   Support
 {
     const GRAMMAGE = [
         80, 90, 100, 110, 135, 170, 175, 250, 300, 350, 'aucun'
@@ -23,6 +28,21 @@ class Support
      * @ORM\Column(type="integer")
      */
     private $id;
+
+    /**
+     * @var  File|null
+     * @Assert\Image(
+     *     mimeTypes="image/jpeg"
+     * )
+     * @Vich\UploadableField(mapping="support_image", fileNameProperty="filename")
+     */
+    private $imagefile;
+
+    /**
+     * @var string|null
+     * @ORM\Column(type="string", length=255)
+     */
+    private $filename;
 
     /**
      * @ORM\Column(type="integer")
@@ -53,6 +73,11 @@ class Support
      * @ORM\Column(type="integer", nullable=true)
      */
     private $grammage;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $updated_at;
 
     public function getId(): ?int
     {
@@ -107,6 +132,10 @@ class Support
         return $this;
     }
 
+    public function getTypeAsString(int $type): ?string {
+        return self::TYPE[$type];
+    }
+
     public function getBarcode(): ?string
     {
         return $this->barcode;
@@ -124,10 +153,67 @@ class Support
         return $this->grammage;
     }
 
+    public function getGrammageAsString(int $grammage): ?string {
+        return self::GRAMMAGE[$grammage];
+    }
+
     public function setGrammage(?int $grammage): self
     {
         $this->grammage = $grammage;
 
         return $this;
     }
+
+    /**
+     * @return File|null
+     */
+    public function getImagefile(): ?File
+    {
+        return $this->imagefile;
+    }
+
+    /**
+     * @param File|null $imagefile
+     * @return Support
+     * @throws \Exception
+     */
+    public function setImagefile(?File $imagefile): Support
+    {
+        $this->imagefile = $imagefile;
+        if ($this->imagefile instanceof UploadedFile) {
+            $this->updated_at = new \DateTime('now');
+        }
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getFilename(): ?string
+    {
+        return $this->filename;
+    }
+
+    /**
+     * @param string|null $filename
+     * @return Support
+     */
+    public function setFilename(?string $filename): Support
+    {
+        $this->filename = $filename;
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $updated_at): self
+    {
+        $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
 }

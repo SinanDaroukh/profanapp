@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Support Control Panel{% endblock %}
+
+{% block body %}
+    <h1 class="text-center">Support Control Panel</h1>
+
+
+    <div class="jumbotron">
+        <div class="container">
+            {{ form_start(form) }}
+            <div class="form-row align-items-end">
+                <div class="col">
+                    {{ form_row(form.barcode) }}
+                </div>
+                <div class="col">
+                    {{ form_row(form.name) }}
+                </div>
+                <div class="col">
+                    {{ form_row(form.grammage) }}
+                </div>
+                <div class="col">
+                    {{ form_row(form.type) }}
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <button class="btn btn-primary">Research</button>
+                    </div>
+                </div>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+        <table class="table table-hover text-center">
+            <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">
+                    <a class=" btn btn-outline-info" href="{{ path('app_support_create') }}"> + Add a New Support</a>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if supports is not empty %}
+                {% for support in supports %}
+                    <tr>
+
+                        <td>{{ support.id }}</td>
+                        <td>{{ support.name }}</td>
+                        <td>{{ support.quantity }}</td>
+                        <td>
+                            <a type="button" class="text-success btn btn-outline-success" href="{{ path('app_support_view',{'id': support.id }) }}" >View</a>
+                            <a type="button" class="text-info btn btn-outline-info" href="{{ path('app_support_edit', {'id': support.id }) }}">Edit </a>
+                            <a type="button" class="text-danger btn btn-outline-danger" href="{{ path('app_support_delete', {'id': support.id }) }}">Delete</a>
+
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <td colspan="4"> No data available here ...</td>
+            {% endif %}
+
+            </tbody>
+        </table>
+
+    <div align="center" class="pagination">
+        {{ knp_pagination_render(supports) }}
+    </div>
+{% endblock %}
+
+

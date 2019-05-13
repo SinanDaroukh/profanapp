@@ -6,8 +6,78 @@
 
 {% block body %}
 
-    <h1>
-    <img src="http://pole-plurimedia.fr/clermont/wp-content/uploads/2016/08/PP_tetierevilleregion_1200x350.png">
-    </h1>
+    <div class="jumbotron">
+        <h1 class="display-3">Gestion de Stock - ProFan</h1>
+        <hr class="my-4">
+        <p>Historique des 5 dernières transactions :</p>
+
+        <table class="table table-hover text-center">
+            <thead>
+            <tr>
+                <th scope="col">Id Transaction</th>
+                <th scope="col">Id Utilisateur</th>
+                <th scope="col">Nom Utilisateur</th>
+                <th scope="col">Id Produit</th>
+                <th scope="col">Nom Produit</th>
+                <th scope="col">Quantité après modification</th>
+                <th scope="col">Date de la modification</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for log in logs %}
+                <tr class="table-{{ log.type }}">
+                    <td>{{ log.id }}</td>
+                    <td>{{ log.idUser }}</td>
+                    <td>{{ log.userName }}</td>
+                    <td>{{ log.idProduct}}</td>
+                    <td>{{ log.productName}}</td>
+                    <td>{{ log.quantity }}</td>
+                    <td>{{ log.getDatetimeAsString()}}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_USER_ADMIN') or is_granted('ROLE_DATA_ADMIN')%}
+        <div class="row align-content-between">
+            <a type="button" class="text-primary btn btn-outline-primary" href="{{ path('app_log') }}" >Consulter l'historique</a>
+        </div>
+        {% endif %}
+    </div>
+    <div class="container text-center">
+        <br>
+        <div class="row">
+            <div class="col-sm-6 text-center">
+                <h3>Efficient</h3>
+                <p>Rules your life with the Storage Manager.</p>
+                <p>Completing tasks had never been so easy and satisfying.</p>
+            </div>
+            <div class="col-sm-6 text-center">
+                <img src="{{ asset('images/LogoLafayette.png') }}">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <img src="{{ asset('images/logo_isima-300x200.png') }}">
+            </div>
+            <div class="col-sm-6">
+                <h3>Responsive</h3>
+                <p>Thanks to the Bootstrap Framework, this website is mobile-friendly.</p>
+                <p>The Storage Manager can be reach from whenever you are and with whatever devices.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <h3>Responsive</h3>
+                <p>Thanks to the Bootstrap Framework, this website is mobile-friendly.</p>
+                <p>The Storage Manager can be reach from whenever you are and with whatever devices.</p>
+            </div>
+            <div class="col-sm-6">
+                <h3>Responsive</h3>
+                <p>Thanks to the Bootstrap Framework, this website is mobile-friendly.</p>
+                <p>The Storage Manager can be reach from whenever you are and with whatever devices.</p>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}
 

@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Support;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -15,6 +16,9 @@ class SupportType extends AbstractType
         $builder
             ->add('quantity')
             ->add('name')
+            ->add('imagefile', FileType::class, [
+                'required' => false
+            ])
             ->add('description')
             ->add('type', ChoiceType::class,
                 [

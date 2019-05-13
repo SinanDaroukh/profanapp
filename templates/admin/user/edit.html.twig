@@ -7,6 +7,9 @@
     <h1>What about editing a new user ?</h1>
     {{ form_start(editUserForm, {'attr': {'novalidate': 'novalidate'}}) }}
     {{ form_widget(editUserForm) }}
-    <button type="submit" class="btn btn-primary">Edit !</button>
-    {{ form_end(editUserForm) }}
+    <button type="submit" class="btn btn-primary">Edit !</button><br>
+    {{ form_end(editUserForm) }}<hr>
+    <a type="button" class="text-primary btn btn-outline-primary" href="{{ path('app_reset_password', {'id': user.id }) }}" >Changer de mot de passe</a>
+
+
 {% endblock %}

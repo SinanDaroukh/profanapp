@@ -7,33 +7,58 @@
 {% block body %}
     <h1>{{ support.name }} 's  Specifications</h1>
 
-    <div class="row">
-        <label for="staticEmail" class="col-sm-2">Identifier :</label>
-        <label for="staticEmail" class="col-sm-10">{{ support.id }}</label>
+    <div class="jumbotron">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    {% if support.filename %}
+                        <img src="{{ vich_uploader_asset(support, 'imagefile') | imagine_filter('medium')}}" alt="card-img-top" style="width: 100%; height:auto;">
+                    {% else %}
+                        <img src="https://picsum.photos/200?random={{ support.id }}" alt="card-img-top" style="width: 100%; height:auto;">
+                    {% endif %}
+                </div>
+                <div class="col-md-6">
+                    <h1>{{ support.name }}</h1>
+                    <div class="row">
+                        <label for="staticEmail" class="col-sm-6">Identifier :</label>
+                        <label for="staticEmail" class="col-sm-6">{{ support.id }}</label>
+                    </div>
+                    <div class="row">
+                        <label for="staticEmail" class="col-sm-6">Name :</label>
+                        <label for="staticEmail" class="col-sm-6">{{ support.name }}</label>
+                    </div>
+                    <div class="row">
+                        <label for="staticEmail" class="col-sm-6">Description :</label>
+                        <label for="staticEmail" class="col-sm-6">{{ support.description }}</label>
+                    </div>
+                    <div class="row">
+                        <label for="staticEmail" class="col-sm-6">Barcode :</label>
+                        <label for="staticEmail" class="col-sm-6">{{ support.barcode }}</label>
+                    </div>
+                    <div class="row">
+                        <label for="staticEmail" class="col-sm-6">Quantity :</label>
+                        <label for="staticEmail" class="col-sm-6">{{ support.quantity }}
+                            {% if support.quantity == 0 %}
+                              -  <span class="badge badge-danger">STOCK EPUISE</span>
+                            {% elseif support.quantity < 10 %}
+                               -      <span class="badge badge-warning">STOCK PRESQUE EPUISE</span>
+                            {% endif %}
+                        </label>
+                    </div>
+
+                    <div class="row">
+                        <label for="staticEmail" class="col-sm-6">Type :</label>
+                        <label for="staticEmail" class="col-sm-6">{{ support.typeAsString(support.type) }}</label>
+                    </div>
+                    <div class="row">
+                        <label for="staticEmail" class="col-sm-6">Grammage :</label>
+                        <label for="staticEmail" class="col-sm-6">{{ support.getGrammageAsString(support.grammage) }}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="row">
-        <label for="staticEmail" class="col-sm-2">Name :</label>
-        <label for="staticEmail" class="col-sm-10">{{ support.name }}</label>
-    </div>
-    <div class="row">
-        <label for="staticEmail" class="col-sm-2">Description :</label>
-        <label for="staticEmail" class="col-sm-10">{{ support.description }}</label>
-    </div>
-    <div class="row">
-        <label for="staticEmail" class="col-sm-2">Barcode :</label>
-        <label for="staticEmail" class="col-sm-10">{{ support.barcode }}</label>
-    </div>
-    <div class="row">
-        <label for="staticEmail" class="col-sm-2">Quantity :</label>
-        <label for="staticEmail" class="col-sm-10">{{ support.quantity }}</label>
-    </div>
-    <div class="row">
-        <label for="staticEmail" class="col-sm-2">Type :</label>
-        <label for="staticEmail" class="col-sm-10">{{ support.type }}</label>
-    </div>
-    <div class="row">
-        <label for="staticEmail" class="col-sm-2">Grammage :</label>
-        <label for="staticEmail" class="col-sm-10">{{ support.grammage }}</label>
-    </div>
+
+
 {% endblock %}
 

@@ -4,6 +4,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\UserEditType;
 use App\Form\UserFormType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -40,10 +41,10 @@ class UserAdminController extends AbstractController
             /** @var User $user */
            $user = $form->getData();
 
-           $user->setPassword($passwordEncoder->encodePassword(
-               $user,
-               $user->getPassword()
-           ));
+               $user->setPassword($passwordEncoder->encodePassword(
+                   $user,
+                   $user->getPassword()
+               ));
 
             $entityManager->persist($user);
             $entityManager->flush();
@@ -74,20 +75,10 @@ class UserAdminController extends AbstractController
         /** Retrieving the actual user connected... */
         $actual_user_id = $this->getUser()->getId();
 
-        $form = $this->createForm(UserFormType::class, $user);
+        $form = $this->createForm(UserEditType::class, $user);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()){
-
-            /** @var User $user */
-            $user = $form->getData();
-
-            dd($user->getPassword());
-
-            $user->setPassword($passwordEncoder->encodePassword(
-                $user,
-                $user->getPassword()
-            ));
 
             $entityManager->persist($user);
             $entityManager->flush();
