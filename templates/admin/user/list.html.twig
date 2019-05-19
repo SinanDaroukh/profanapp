@@ -15,7 +15,7 @@
                 <th scope="col">Firstname</th>
                 <th scope="col">Email</th>
                 <th scope="col">Roles</th>
-                <th scope="col"><a class=" btn btn-outline-info" href="{{ path('app_create_user') }}"> + Add a New User</a></th>
+                <th scope="col"><a class=" btn btn-outline-info" href="{{ path('app_create_user') }}"> + Ajouter un Utilisateur</a></th>
             </tr>
         </thead>
         <tbody>
@@ -26,9 +26,9 @@
                 <td>{{ user.email }}</td>
                 <td>{{ user.rolesToString}}</td>
                 <td>
-                        <a type="button" class="text-success btn btn-outline-success" href="{{ path('app_view_user', {'id': user.id }) }}" >View</a>
-                        <a type="button" class="text-info btn btn-outline-info" href="{{ path('app_edit_user', {'id': user.id }) }}">Edit </a>
-                        <a type="button" class="text-danger btn btn-outline-danger" href="{{ path('app_delete_user', {'id': user.id }) }}">Delete</a>
+                        <a type="button" class="text-success btn btn-outline-success" href="{{ path('app_view_user', {'id': user.id }) }}" >Consulter</a>
+                        <a type="button" class="text-info btn btn-outline-info" href="{{ path('app_edit_user', {'id': user.id }) }}">Editer </a>
+                        <a type="button" class="text-danger btn btn-outline-danger" href="{{ path('app_delete_user', {'id': user.id }) }}">Supprimer</a>
 
                 </td>
             </tr>

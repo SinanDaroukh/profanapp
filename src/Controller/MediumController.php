@@ -2,7 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Log;
+use App\Form\QuantityMediumType;
+use App\Repository\MediumRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,96 +23,174 @@ class MediumController extends AbstractController
 {
     /**
      * @Route("/medium", name="medium")
+     * @Route("/medium/list", name="app_medium_list")
+     * @Route("/admin/medium", name="app_medium_admin")
+     * @param PaginatorInterface $paginator
+     * @param MediumRepository $repo
+     * @param Request $request
+     * @return Response
      */
-    public function index(Search $search=null, Request $request)
+    public function index(PaginatorInterface $paginator, MediumRepository $repo, Request $request)
     {
-        if (!$search){
-            $search= new Search();
-        }
-        $query = $this->createForm(SearchType::class, $search);
 
-        $query->handleRequest($request);
+        $search= new Search();
+        $form = $this->createForm(SearchType::class, $search);
+        $form->handleRequest($request);
 
-        $repo = $this->getDoctrine()->getRepository(Medium::class);
+        $medium = $paginator->paginate(
+            $repo->findAllQuery($search),
+            $request->query->getInt('page',1),
+            12
+        );
 
-        if ($query->isSubmitted() && $query->isValid()) {
-            $medium = $repo->findBy([
-                'nom' => $search->getRecherche()
+        if ( preg_match("/^\/admin\/medium/", $request->getRequestUri()) and ( array_key_exists('ROLE_DATA_ADMIN',array_flip($this->getUser()->getRoles())) or array_key_exists('ROLE_ADMIN',array_flip($this->getUser()->getRoles())))){
+            return $this->render('medium/admin.html.twig', [
+                'mediums' => $medium,
+                'formSearch' => $form->createView()
             ]);
         }
-        else{
-            $medium = $repo->findAll();
+        else {
+
+            return $this->render('medium/index.html.twig', [
+                'formSearch' => $form->createView(),
+                'mediums' => $medium
+            ]);
         }
 
-        return $this->render('medium/index.html.twig', [
-            'formSearch' => $query->createView(),
+    }
+
+    /**
+     * @Route("/medium/view/{id}", name="app_medium_view")
+     *
+     * @param Medium $medium
+     * @return Response
+     */
+    public function viewUser(Medium $medium){
+        return $this->render('medium/view.html.twig', [
             'medium' => $medium
         ]);
     }
-
-
     /**
-     * @Route("/medium/add",name="form_add")
-     * @Route("/medium/{id}/edit",name="form_edit")
-     *
-     * @param Medium $medium
+     * @Route("/medium/create", name="app_medium_create")
+     * @param EntityManagerInterface $entityManager
      * @param Request $request
-     * @param ObjectManager $manager
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return RedirectResponse|Response
      */
-    public function form_add (Medium $medium=null, Request $request, ObjectManager $manager)
-    {
-        if (!$medium) {
-            /*Si le medium en argument est vide*/
-            /*Il faut en créer un nouveau*/
-            $medium = new Medium();
-        }
+    public function create(EntityManagerInterface $entityManager, Request $request){
 
-        $form = $this->createForm(MediumType::class, $medium);/*Création du formulaire*/
+        $form = $this->createForm(MediumType::class);
 
         $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()){
 
-        if($form->isSubmitted() && $form->isValid()) /*Si formulaire est valide et envoyé, on l'intègre à la database*/ {
-            $manager->persist($medium);
-            $manager->flush();
+            /** @var Medium $medium */
+            $medium = $form->getData();
+            $user = $this->getUser();
+            $entityManager->persist($medium);
 
-            return $this->redirectToRoute('medium');
+            $log = new Log($user->getId(), $medium->getId(), $medium->getNom(), $user->getFirstname(), $medium->getQuantity(), 'success');
+            $entityManager->persist($log);
+            $entityManager->flush();
+
+            $this->addFlash('success','Medium successfully created ! Well done, Agent Polly !');
+
+            return $this->redirectToRoute('app_medium_admin');
         }
 
-        return $this->render('medium/form.html.twig', [
-            'formMedium' => $form->createView(),
-            'form' => 'add',
-            'editMode' => $medium->getId()!== null
+        return $this->render('medium/create.html.twig', [
+            'createMediumForm' => $form->createView()
         ]);
     }
 
     /**
-     * @Route("/medium/{id}/delete",name="form_suppr")
-     *
-     * @param Medium $medium
-     * @param Request $request
-     * @param ObjectManager $manager
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @Route("/medium/delete/{id}", name="app_medium_delete")
+     * @param medium $medium
+     * @param EntityManagerInterface $entityManager
+     * @return RedirectResponse
      */
-        public function form_suppr (Medium $medium, Request $request, ObjectManager $manager)
-    {
+    public function delete(medium $medium, EntityManagerInterface $entityManager){
+
+        $user = $this->getUser();
+        $log = new Log($user->getId(), $medium->getId(), $medium->getNom(), $user->getFirstname(), $medium->getQuantity(), 'danger');
+        $entityManager->persist($log);
+        $entityManager->remove($medium);
+        $entityManager->flush();
+
+        $this->addFlash('success','The medium named ' . $medium->getNom() . ' has been deleted ! Congrats, Agent Nick !');
+
+        return $this->redirectToRoute('app_medium_admin');
+    }
+
+    /**
+     * @Route("/medium/edit/{id}", name="app_medium_edit")
+     * @param Medium $medium
+     * @param EntityManagerInterface $entityManager
+     * @param Request $request
+     * @return Response
+     */
+    public function edit(Medium $medium, EntityManagerInterface $entityManager, Request $request){
+
         $form = $this->createForm(MediumType::class, $medium);
-
+        $user = $this->getUser();
         $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()){
 
-        if ($form->isSubmitted() && $form->isValid() && $medium->getId()) {
+            $medium = $form->getData();
 
-            $manager->remove($medium);
-            $manager->flush();
+            $log = new Log($user->getId(), $medium->getId(), $medium->getNom(), $user->getFirstname(), $medium->getQuantity(), 'secondary');
+            $entityManager->persist($log);
+            $entityManager->persist($medium);
+            $entityManager->flush();
 
-            return $this->redirectToRoute('medium');
+            $this->addFlash('success','Medium successfully updated ! Well done, Agent Molly !');
+
+            return $this->redirectToRoute('app_medium_admin');
         }
 
-        return $this->render('medium/form.html.twig', [
-            'formMedium' => $form->createView(),
-            'form' => 'suppr'
+        return $this->render('medium/edit.html.twig', [
+            'editMediumForm' => $form->createView(),
+            'medium' => $medium,
         ]);
+
+    }
+
+    /**
+     * @Route("/medium/edit/quantity/{id}", name="app_medium_edit_quantity")
+     * @param Medium $medium
+     * @param EntityManagerInterface $entityManager
+     * @param Request $request
+     * @return Response
+     */
+    public function editQuantity(Medium $medium, EntityManagerInterface $entityManager, Request $request){
+
+        $form = $this->createForm(QuantityMediumType::class, $medium);
+        $user = $this->getUser();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()){
+
+            $medium = $form->getData();
+
+            if ( $medium->getQuantity() >= 0 ){
+
+                $log = new Log($user->getId(), $medium->getId(), $medium->getNom(), $user->getFirstname(), $medium->getQuantity(), 'secondary');
+                $entityManager->persist($log);
+                $entityManager->persist($medium);
+                $entityManager->flush();
+
+                $this->addFlash('success','Medium successfully updated ! Well done, Agent Molly !');
+
+                return $this->redirectToRoute('app_medium_list');
+            }
+            else {
+                $this->addFlash('warning', 'Quantité non valide');
+            }
+        }
+
+        return $this->render('medium/edit_quantity.html.twig', [
+            'editMediumForm' => $form->createView(),
+            'medium' => $medium,
+        ]);
+
     }
 
 

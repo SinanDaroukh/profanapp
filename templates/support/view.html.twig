@@ -20,11 +20,11 @@
                 <div class="col-md-6">
                     <h1>{{ support.name }}</h1>
                     <div class="row">
-                        <label for="staticEmail" class="col-sm-6">Identifier :</label>
+                        <label for="staticEmail" class="col-sm-6">ID :</label>
                         <label for="staticEmail" class="col-sm-6">{{ support.id }}</label>
                     </div>
                     <div class="row">
-                        <label for="staticEmail" class="col-sm-6">Name :</label>
+                        <label for="staticEmail" class="col-sm-6">Nom :</label>
                         <label for="staticEmail" class="col-sm-6">{{ support.name }}</label>
                     </div>
                     <div class="row">
@@ -32,11 +32,11 @@
                         <label for="staticEmail" class="col-sm-6">{{ support.description }}</label>
                     </div>
                     <div class="row">
-                        <label for="staticEmail" class="col-sm-6">Barcode :</label>
+                        <label for="staticEmail" class="col-sm-6">Code Barre :</label>
                         <label for="staticEmail" class="col-sm-6">{{ support.barcode }}</label>
                     </div>
                     <div class="row">
-                        <label for="staticEmail" class="col-sm-6">Quantity :</label>
+                        <label for="staticEmail" class="col-sm-6">Quantité en Stock :</label>
                         <label for="staticEmail" class="col-sm-6">{{ support.quantity }}
                             {% if support.quantity == 0 %}
                               -  <span class="badge badge-danger">STOCK EPUISE</span>
@@ -45,7 +45,10 @@
                             {% endif %}
                         </label>
                     </div>
-
+                    <div class="row">
+                        <label for="staticEmail" class="col-sm-6">Localisation :</label>
+                        <label for="staticEmail" class="col-sm-6">{{ support.localisationAsString(support.localisation) }}</label>
+                    </div>
                     <div class="row">
                         <label for="staticEmail" class="col-sm-6">Type :</label>
                         <label for="staticEmail" class="col-sm-6">{{ support.typeAsString(support.type) }}</label>

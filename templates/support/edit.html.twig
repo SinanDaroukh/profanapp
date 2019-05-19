@@ -52,10 +52,31 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
-    {{ form_start(editSupportForm) }}
-    {{ form_row(editSupportForm.barcode) }}
-    {{ form_rest(editSupportForm) }}
-    <button type="submit" class="btn btn-primary">Edit !</button>
+    <div class="jumbotron">
+        <div class="container">
+            {{ form_start(editSupportForm) }}
+            <div class="row">
+                <div class="col-md-6">
+                    {{ form_row(editSupportForm.name) }}
+                    {{ form_row(editSupportForm.imagefile) }}
+                    {{ form_row(editSupportForm.description) }}
+                    {{ form_row(editSupportForm.quantity) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_row(editSupportForm.barcode) }}
+                    {{ form_row(editSupportForm.grammage) }}
+                    {{ form_row(editSupportForm.localisation) }}
+                    {{ form_row(editSupportForm.type) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-block btn-primary">Create !</button>
+                </div>
+            </div>
+        </div>
+    </div>
     {{ form_end(editSupportForm) }}
 
             {% block javascripts %}

@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="App\Repository\SupportRepository")
  * @Vich\Uploadable()
  */
-class   Support
+class Support
 {
     const GRAMMAGE = [
         80, 90, 100, 110, 135, 170, 175, 250, 300, 350, 'aucun'
@@ -20,6 +20,10 @@ class   Support
 
     const TYPE = [
         'offset', 'couché', 'bouffant', 'journal', 'autre'
+    ];
+
+    const LOCALISATION = [
+        'SALLE 1', 'SALLE 2', 'SALLE 3', 'SALLE 4'
     ];
 
     /**
@@ -79,6 +83,11 @@ class   Support
      */
     private $updated_at;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $localisation;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -133,7 +142,7 @@ class   Support
     }
 
     public function getTypeAsString(int $type): ?string {
-        return self::TYPE[$type];
+        return self::TYPE[$type-1];
     }
 
     public function getBarcode(): ?string
@@ -154,7 +163,7 @@ class   Support
     }
 
     public function getGrammageAsString(int $grammage): ?string {
-        return self::GRAMMAGE[$grammage];
+        return self::GRAMMAGE[$grammage-1];
     }
 
     public function setGrammage(?int $grammage): self
@@ -214,6 +223,22 @@ class   Support
         $this->updated_at = $updated_at;
 
         return $this;
+    }
+
+    public function getLocalisation(): ?int
+    {
+        return $this->localisation;
+    }
+
+    public function setLocalisation(int $localisation): self
+    {
+        $this->localisation = $localisation;
+
+        return $this;
+    }
+
+    public function getLocalisationAsString(int $type): ?string {
+        return self::LOCALISATION[$type-1];
     }
 
 }

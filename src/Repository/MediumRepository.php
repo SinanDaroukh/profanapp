@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Medium;
+use App\Entity\Search;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -18,6 +20,41 @@ class MediumRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Medium::class);
     }
+
+    public function findAllQuery(Search $search) : Query
+    {
+        $query = $this->createQueryBuilder('m');
+
+        if ( $search->getNom()){
+            $query = $query
+                ->andWhere('m.nom LIKE \'%' . $search->getNom() . '%\'');
+        }
+
+        if ( $search->getLocalisation()){
+            $query = $query
+                ->andWhere('m.localisation = :localisation')
+                ->setParameter('localisation', $search->getLocalisation());
+        }
+        if ( $search->getType()){
+            $query = $query
+                ->andWhere('m.type = :type')
+                ->setParameter('type', $search->getType());
+        }
+        if ( $search->getCodebarre()){
+            $query = $query
+                ->andWhere('m.codebarre = :codebarre')
+                ->setParameter('codebarre', $search->getCodebarre());
+        }
+        if ( $search->getQuantitymax()){
+        $query = $query
+            ->andWhere('m.quantity < :quantity')
+            ->setParameter('quantity', $search->getQuantitymax());
+    }
+
+
+        return $query->getQuery();
+    }
+
 
     // /**
     //  * @return Medium[] Returns an array of Medium objects

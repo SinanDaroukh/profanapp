@@ -1,32 +1,32 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
-
-{% endblock %}
-
 {% block body %}
 
-    <h1>Création d'un nouveau Medium </h1>
+    <h1>Editer un Medium</h1>
 
     <div class="jumbotron">
         <div class="container">
-            {{ form_start(createMediumForm) }}
+            {{ form_start(editMediumForm) }}
             <div class="row">
                 <div class="col-md-9"></div>
                 <div class="col-md-3">
                     {% include 'scan.html.twig' %}
                 </div>
             </div>
+
+
             <div class="row">
                 <div class="col-md-6">
-                    {{ form_row(createMediumForm.nom) }}
-                    {{ form_row(createMediumForm.description) }}
-                    {{ form_row(createMediumForm.quantity) }}
+                    {{ form_row(editMediumForm.nom) }}
+                    {{ form_row(editMediumForm.description) }}
+                    {{ form_row(editMediumForm.quantity) }}
+
                 </div>
                 <div class="col-md-6">
-                    {{ form_row(createMediumForm.codebarre) }}
-                    {{ form_row(createMediumForm.localisation) }}
-                    {{ form_row(createMediumForm.type) }}
+
+                    {{ form_row(editMediumForm.codebarre) }}
+                    {{ form_row(editMediumForm.localisation) }}
+                    {{ form_row(editMediumForm.type) }}
                 </div>
             </div>
             <div class="row">
@@ -37,9 +37,12 @@
             </div>
         </div>
     </div>
-
-
-    {{ form_end(createMediumForm) }}
+    {{ form_end(editMediumForm) }}
 
 
 {% endblock %}
+
+{% block title %}
+
+{% endblock %}
+

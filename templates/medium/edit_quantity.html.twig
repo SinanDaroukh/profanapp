@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ form_start(editMediumForm) }}
+    {{ form_rest(editMediumForm) }}
+    <button type="submit" class="btn btn-primary">Editer !</button>
+    {{ form_end(editMediumForm) }}
+{% endblock %}
+
+{% block title %}
+Editer la quantité de {{ medium.nom }}
+{% endblock %}
+

@@ -40,7 +40,7 @@ class  SupportController extends AbstractController
             12
         );
 
-        if ( $request->getRequestUri() == "/admin/support" and ( array_key_exists('ROLE_DATA_ADMIN',array_flip($this->getUser()->getRoles())) or array_key_exists('ROLE_ADMIN',array_flip($this->getUser()->getRoles())))){
+        if (  preg_match("/^\/admin\/support/", $request->getRequestUri()) and ( array_key_exists('ROLE_DATA_ADMIN',array_flip($this->getUser()->getRoles())) or array_key_exists('ROLE_ADMIN',array_flip($this->getUser()->getRoles())))){
             return $this->render('support/admin.html.twig', [
                 'supports' => $supports,
                 'form' => $form->createView()
@@ -71,7 +71,6 @@ class  SupportController extends AbstractController
      * @Route("/support/create", name="app_support_create")
      * @param EntityManagerInterface $entityManager
      * @param Request $request
-     * @param SupportRepository $supportRepository
      * @return RedirectResponse|Response
      */
     public function create(EntityManagerInterface $entityManager, Request $request){
@@ -92,7 +91,7 @@ class  SupportController extends AbstractController
 
             $this->addFlash('success','Support successfully created ! Well done, Agent Polly !');
 
-            return $this->redirectToRoute('app_support');
+            return $this->redirectToRoute('app_support_admin');
         }
 
         return $this->render('support/create.html.twig', [
@@ -116,7 +115,7 @@ class  SupportController extends AbstractController
 
         $this->addFlash('success','The support named ' . $support->getName() . ' has been deleted ! Congrats, Agent Nick !');
 
-        return $this->redirectToRoute('app_support');
+        return $this->redirectToRoute('app_support_admin');
     }
 
     /**
@@ -142,7 +141,7 @@ class  SupportController extends AbstractController
 
             $this->addFlash('success','Support successfully updated ! Well done, Agent Molly !');
 
-            return $this->redirectToRoute('app_support');
+            return $this->redirectToRoute('app_support_admin');
         }
 
         return $this->render('support/edit.html.twig', [

@@ -5,11 +5,21 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\MediumRepository")
  */
 class Medium
 {
+
+    const TYPE = [
+        'encre', 'peinture', 'nettoyant', 'autre'
+    ];
+
+    const LOCALISATION = [
+        'SALLE 1', 'SALLE 2', 'SALLE 3', 'SALLE 4'
+    ];
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -18,7 +28,7 @@ class Medium
     private $id;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string")
      */
     private $codebarre;
 
@@ -38,21 +48,26 @@ class Medium
     private $type;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="integer", length=255)
      */
-    private $Localisation;
+    private $localisation;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $quantity;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getCodebarre(): ?int
+    public function getCodebarre(): ?string
     {
         return $this->codebarre;
     }
 
-    public function setCodebarre(int $codebarre): self
+    public function setCodebarre(string $codebarre): self
     {
         $this->codebarre = $codebarre;
 
@@ -88,6 +103,11 @@ class Medium
         return $this->type;
     }
 
+
+    public function getTypeAsString(int $type): ?string {
+        return self::TYPE[$type-1];
+    }
+
     public function setType(string $type): self
     {
         $this->type = $type;
@@ -95,15 +115,32 @@ class Medium
         return $this;
     }
 
-    public function getLocalisation(): ?string
+    public function getLocalisation(): ?int
     {
-        return $this->Localisation;
+        return $this->localisation;
     }
 
-    public function setLocalisation(string $Localisation): self
+    public function getLocalisationAsString(int $type): ?string {
+        return self::LOCALISATION[$type-1];
+    }
+
+    public function setLocalisation(int $localisation): self
     {
-        $this->Localisation = $Localisation;
+        $this->localisation = $localisation;
 
         return $this;
     }
+
+    public function getQuantity(): ?int
+    {
+        return $this->quantity;
+    }
+
+    public function setQuantity(int $quantity): self
+    {
+        $this->quantity = $quantity;
+
+        return $this;
+    }
+
 }

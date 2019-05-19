@@ -3,7 +3,7 @@
 {% block title %}Support Control Panel{% endblock %}
 
 {% block body %}
-    <h1 class="text-center">Support Control Panel</h1>
+    <h1 class="text-center">Administration des Supports</h1>
 
 
     <div class="jumbotron">
@@ -11,20 +11,35 @@
             {{ form_start(form) }}
             <div class="form-row align-items-end">
                 <div class="col">
+                    {{ form_row(form.name) }}
+                </div>
+                <div class="col">
                     {{ form_row(form.barcode) }}
                 </div>
                 <div class="col">
-                    {{ form_row(form.name) }}
+                    {{ form_row(form.quantity) }}
                 </div>
+            </div>
+            <div class="form-row align-items-end">
                 <div class="col">
                     {{ form_row(form.grammage) }}
                 </div>
                 <div class="col">
+                    {{ form_row(form.localisation) }}
+                </div>
+                <div class="col">
                     {{ form_row(form.type) }}
+                </div>
+            </div>
+            <div class="form-row align-items-end">
+                <div class="col">
+                    <div class="form-group">
+                        {% include 'scan.html.twig' %}
+                    </div>
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <button class="btn btn-primary">Research</button>
+                        <button class="btn btn-block btn-primary">Rechercher</button>
                     </div>
                 </div>
             </div>
@@ -35,11 +50,14 @@
         <table class="table table-hover text-center">
             <thead>
             <tr>
-                <th scope="col">Id</th>
-                <th scope="col">Name</th>
-                <th scope="col">Quantity</th>
+                <th scope="col">ID</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Quantité</th>
+                <th scope="col">Grammage</th>
+                <th scope="col">Localisation</th>
+                <th scope="col">Type</th>
                 <th scope="col">
-                    <a class=" btn btn-outline-info" href="{{ path('app_support_create') }}"> + Add a New Support</a>
+                    <a class=" btn btn-outline-info" href="{{ path('app_support_create') }}"> + Ajouter un Support</a>
                 </th>
             </tr>
             </thead>
@@ -51,10 +69,13 @@
                         <td>{{ support.id }}</td>
                         <td>{{ support.name }}</td>
                         <td>{{ support.quantity }}</td>
+                        <td>{{ support.getGrammageAsString(support.grammage) }}</td>
+                        <td>{{ support.getLocalisationAsString(support.localisation) }}</td>
+                        <td>{{ support.getTypeAsString(support.type) }}</td>
                         <td>
-                            <a type="button" class="text-success btn btn-outline-success" href="{{ path('app_support_view',{'id': support.id }) }}" >View</a>
-                            <a type="button" class="text-info btn btn-outline-info" href="{{ path('app_support_edit', {'id': support.id }) }}">Edit </a>
-                            <a type="button" class="text-danger btn btn-outline-danger" href="{{ path('app_support_delete', {'id': support.id }) }}">Delete</a>
+                            <a type="button" class="text-success btn btn-outline-success" href="{{ path('app_support_view',{'id': support.id }) }}" >Consulter</a>
+                            <a type="button" class="text-info btn btn-outline-info" href="{{ path('app_support_edit', {'id': support.id }) }}">Editer </a>
+                            <a type="button" class="text-danger btn btn-outline-danger" href="{{ path('app_support_delete', {'id': support.id }) }}">Supprimer</a>
 
                         </td>
                     </tr>

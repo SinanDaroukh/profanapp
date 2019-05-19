@@ -7,6 +7,11 @@ vich_uploader:
             upload_destination: '%kernel.project_dir%/public/images/supports'
             namer: Vich\UploaderBundle\Naming\UniqidNamer
 
+        medium_image:
+            uri_prefix: /images/mediums
+            upload_destination: '%kernel.project_dir%/public/images/mediums'
+            namer: Vich\UploaderBundle\Naming\UniqidNamer
+
     #mappings:
     #    products:
     #        uri_prefix: /images/products

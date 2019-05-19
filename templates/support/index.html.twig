@@ -3,30 +3,44 @@
 {% block title %}Support Control Panel{% endblock %}
 
 {% block body %}
-    <h1 class="text-center">Support Control Panel</h1>
+    <h1 class="text-center">Listing des Supports</h1>
 
     <div class="jumbotron">
         <div class="container">
             {{ form_start(form) }}
-                <div class="form-row align-items-end">
-                    <div class="col">
-                        {{ form_row(form.barcode) }}
-                    </div>
-                    <div class="col">
-                        {{ form_row(form.name) }}
-                    </div>
-                    <div class="col">
-                        {{ form_row(form.grammage) }}
-                    </div>
-                    <div class="col">
-                        {{ form_row(form.type) }}
-                    </div>
-                    <div class="col">
-                        <div class="form-group">
-                            <button class="btn btn-primary">Research</button>
-                        </div>
+            <div class="form-row align-items-end">
+                <div class="col">
+                    {{ form_row(form.name) }}
+                </div>
+                <div class="col">
+                    {{ form_row(form.barcode) }}
+                </div>
+                <div class="col">
+                    {{ form_row(form.quantity) }}
+                </div>
+            </div>
+            <div class="form-row align-items-end">
+                <div class="col">
+                    {{ form_row(form.grammage) }}
+                </div>
+                <div class="col">
+                    {{ form_row(form.localisation) }}
+                </div>
+                <div class="col">
+                    {{ form_row(form.type) }}
+                </div>
+
+            </div>
+            <div class="form-row align-items-end">
+                <div class="col form-group">
+                    {% include 'scan.html.twig' %}
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <button class="btn btn-block btn-primary">Rechercher</button>
                     </div>
                 </div>
+            </div>
             {{ form_end(form) }}
         </div>
     </div>
@@ -49,6 +63,7 @@
                             <br><br>
                             <div class="text-center">
                                 <div>Nom : {{ support.name }}</div>
+                                <div>Localisation : {{ support.getLocalisationAsString(support.localisation) }}</div>
                                 <div>Grammage : {{ support.getGrammageAsString(support.grammage) }}</div>
                                 <div>Type : {{ support.getTypeAsString(support.type) }}</div>
                                 <div>Quantité : {{ support.quantity }} </div>

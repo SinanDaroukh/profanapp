@@ -30,7 +30,6 @@ class SupportRepository extends ServiceEntityRepository
                         ->andWhere('s.barcode = :barcode')
                         ->setParameter('barcode', $search->getBarcode());
         }
-
         if ( $search->getName()){
             $query = $query
                 ->andWhere('s.name LIKE \'%' . $search->getName() . '%\'');
@@ -45,6 +44,16 @@ class SupportRepository extends ServiceEntityRepository
                 ->andWhere('s.grammage = :grammage')
                 ->setParameter('grammage', $search->getGrammage());
         }
+        if ( $search->getQuantity()){
+            $query = $query
+                ->andWhere('s.quantity < :x')
+                ->setParameter('x', $search->getQuantity());
+        }
+        if ( $search->getLocalisation()){
+        $query = $query
+            ->andWhere('s.localisation = :localisation')
+            ->setParameter('localisation', $search->getLocalisation());
+    }
 
         return $query->getQuery();
     }

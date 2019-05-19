@@ -2,26 +2,25 @@
 
 namespace App\DataFixtures;
 
-use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\Medium;
 
-class MediumFixtures extends Fixture
+class MediumFixtures extends BaseFixture
 {
-    public function load(ObjectManager $manager)
+    public function loadData(ObjectManager $manager)
     {
-        for ($i=1; $i<10; $i++){
+        $this->createMany(100,'main_medium', function ($i) {
             $medium = new Medium();
+            $medium->setNom($this->faker->words(3, true));
+            $medium->setDescription($this->faker->sentence(3, true));
+            $medium->setQuantity($this->faker->numberBetween(0,99));
+            $medium->setCodebarre($this->faker->ean13);
+            $medium->setType($this->faker->numberBetween(1,4));
+            $medium->setLocalisation($this->faker->numberBetween(1,4));
 
-            $medium->setcodebarre($i)
-                ->setnom("Nom de l'objet n°$i")
-                ->setdescription("Une petite description de l'objet $i")
-                ->settype("Le type de l'objet")
-                ->setlocalisation("La localisation de l'objet")
-            ;
+            return $medium;
 
-            $manager->persist($medium);
-        }
+        });
 
         $manager->flush();
     }

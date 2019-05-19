@@ -18,41 +18,44 @@
 
     {% if is_granted('ROLE_USER') %}
     <div class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <a class="navbar-brand" href="#">Gestion de Stock - Profan</a>
+        <a class="navbar-brand" href="{{ path('app_homepage') }}">Gestion de Stock - Profan</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
             <div class="collapse navbar-collapse" id="navbarColor01">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="{{ path('app_homepage') }}">Home <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="{{ path('app_homepage') }}">Accueil <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_support') }}">Support</a>
+                        <a class="nav-link" href="{{ path('app_support') }}">Liste des Supports</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Medium</a>
+                        <a class="nav-link" href="{{ path('medium') }}">Liste des Mediums</a>
                     </li>
                     {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_USER_ADMIN') or is_granted('ROLE_DATA_ADMIN')%}
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Admin Interface</a>
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Menu Administrateur</a>
                         <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
                             {% if is_granted('ROLE_DATA_ADMIN') %}
-                            <a class="dropdown-item" href="{{ path('app_support') }}">Manage Supports</a>
-                            <a class="dropdown-item" href="{{ path('medium') }}">Manage Mediums</a>
+                            <a class="dropdown-item" href="{{ path('app_support_admin') }}">Gérer les Supports</a>
+                            <a class="dropdown-item" href="{{ path('app_medium_admin') }}">Gérer les  Mediums</a>
                             {% endif %}
                             {% if is_granted('ROLE_USER_ADMIN') %}
-                                    <a class="dropdown-item" href="{{ path('app_list_user') }}">Manage Users</a>
+                                    <a class="dropdown-item" href="{{ path('app_list_user') }}">Gérer les Utilisateurs</a>
                             {% endif %}
                         </div>
                     </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_log') }}">Historique</a>
+                        </li>
                     {% endif %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_account') }}">Account</a>
+                        <a class="nav-link" href="{{ path('app_account') }}">Compte</a>
                     </li>
                 </ul>
                 <form class="form-inline my-2 my-lg-0">
-                    <a class="btn btn-outline-secondary my-2 my-sm-0" href="{{ path('app_logout') }}">Logout</a>
+                    <a class="btn btn-outline-secondary my-2 my-sm-0" href="{{ path('app_logout') }}">Déconnexion</a>
                 </form>
             </div>
         </div>
@@ -190,6 +193,8 @@
            <script src="{{ asset('js/jquery.js') }}"></script>
             <script src="{{ asset('js/popper.js') }}"></script>
             <script src="{{ asset('js/bootstrap.js') }}"></script>
+            <script src="{{ asset('js/quagga.min.js') }}"></script>
+            <script src="{{ asset('js/camera.js') }}"></script>
         {% endblock %}
     </body>
 </html>

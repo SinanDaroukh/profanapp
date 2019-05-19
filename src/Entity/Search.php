@@ -1,42 +1,112 @@
 <?php
-
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-
-/**
- * @ORM\Entity(repositoryClass="App\Repository\SearchRepository")
- */
-class Search
-{
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+class Search {
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @var string|null
      */
-    private $recherche;
+    private $nom;
 
-    public function getId(): ?int
+    /**
+     * @var string|null
+     */
+    private $codebarre;
+
+    /**
+     * @var int|null
+     */
+    private $localisation;
+
+    /**
+     * @var int|null
+     */
+    private $type;
+
+    /**
+     * @var int|null
+     */
+    private $quantitymax;
+
+    /**
+     * @return mixed
+     */
+    public function getCodebarre()
     {
-        return $this->id;
+        return $this->codebarre;
     }
 
-    public function getRecherche(): ?string
+    /**
+     * @param mixed $codebarre
+     * @return Search
+     */
+    public function setCodebarre($codebarre)
     {
-        return $this->recherche;
+        $this->codebarre = $codebarre;
+        return $this;
     }
 
     /**
-     * @param mixed $recherche
+     * @return mixed
      */
-    public function setRecherche($recherche): void
+    public function getLocalisation()
     {
-        $this->recherche = $recherche;
+        return $this->localisation;
+    }
+
+    /**
+     * @param mixed $localisation
+     * @return Search
+     */
+    public function setLocalisation($localisation)
+    {
+        $this->localisation = $localisation;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param mixed $type
+     * @return Search
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getQuantitymax()
+    {
+        return $this->quantitymax;
+    }
+
+    /**
+     * @param mixed $quantitymax
+     * @return Search
+     */
+    public function setQuantitymax($quantitymax)
+    {
+        $this->quantitymax = $quantitymax;
+        return $this;
+    }
+
+    public function getNom(): ?string
+    {
+        return $this->nom;
+    }
+
+    public function setNom($nom): void
+    {
+        $this->nom = $nom;
     }
 }

@@ -9,9 +9,11 @@ class SupportSearch {
     private $name;
 
     /**
-     * @var int|null
+     * @var string|null
      */
     private $barcode;
+
+    private $localisation;
 
     /**
      * @var int|null
@@ -23,19 +25,21 @@ class SupportSearch {
      */
     private $type;
 
+
+    private $quantity;
     /**
-     * @return int|null
+     * @return string|int
      */
-    public function getBarcode(): ?int
+    public function getBarcode(): ?string
     {
         return $this->barcode;
     }
 
     /**
-     * @param int|null $barcode
+     * @param string|null $barcode
      * @return SupportSearch
      */
-    public function setBarcode(?int $barcode): SupportSearch
+    public function setBarcode(?string $barcode): SupportSearch
     {
         $this->barcode = $barcode;
         return $this;
@@ -95,12 +99,35 @@ class SupportSearch {
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getLocalisation()
+    {
+        return $this->localisation;
+    }
 
+    /**
+     * @param mixed $localisation
+     */
+    public function setLocalisation($localisation): void
+    {
+        $this->localisation = $localisation;
+    }
 
+    /**
+     * @return mixed
+     */
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
 
-
-
-
-
-
+    /**
+     * @param mixed $quantity
+     */
+    public function setQuantity($quantity): void
+    {
+        $this->quantity = $quantity;
+    }
 }

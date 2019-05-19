@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block body %}
+    <h1>Caractéristiques de : {{ medium.nom }}</h1>
+
+    <div class="jumbotron">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                        <img src="https://picsum.photos/200?random={{ medium.id }}" alt="card-img-top" style="width: 100%; height:auto;">
+                </div>
+                <div class="col-md-6">
+                    <h1>{{ medium.nom }}</h1>
+                    <div class="row">
+                        <label for="staticEmail" class="col-sm-6">ID :</label>
+                        <label for="staticEmail" class="col-sm-6">{{ medium.id }}</label>
+                    </div>
+                    <div class="row">
+                        <label for="staticEmail" class="col-sm-6">Nom :</label>
+                        <label for="staticEmail" class="col-sm-6">{{ medium.nom }}</label>
+                    </div>
+                    <div class="row">
+                        <label for="staticEmail" class="col-sm-6">Description :</label>
+                        <label for="staticEmail" class="col-sm-6">{{ medium.description }}</label>
+                    </div>
+                    <div class="row">
+                        <label for="staticEmail" class="col-sm-6">Code Barre :</label>
+                        <label for="staticEmail" class="col-sm-6">{{ medium.codebarre }}</label>
+                    </div>
+                    <div class="row">
+                        <label for="staticEmail" class="col-sm-6">Quantité en Stock :</label>
+                        <label for="staticEmail" class="col-sm-6">{{ medium.quantity }}
+                            {% if medium.quantity == 0 %}
+                              -  <span class="badge badge-danger">STOCK EPUISE</span>
+                            {% elseif medium.quantity < 10 %}
+                               -      <span class="badge badge-warning">STOCK PRESQUE EPUISE</span>
+                            {% endif %}
+                        </label>
+                    </div>
+
+                    <div class="row">
+                        <label for="staticEmail" class="col-sm-6">Type :</label>
+                        <label for="staticEmail" class="col-sm-6">{{ medium.typeAsString(medium.type) }}</label>
+                    </div>
+                    <div class="row">
+                        <label for="staticEmail" class="col-sm-6">Localisation :</label>
+                        <label for="staticEmail" class="col-sm-6">{{ medium.getLocalisationAsString(medium.localisation) }}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+

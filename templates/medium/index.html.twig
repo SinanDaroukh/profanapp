@@ -1,43 +1,83 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello MediumController!{% endblock %}
+{% block title %}Mediums{% endblock %}
 
 {% block body %}
+    <h1 class="text-center">Listing des mediums</h1>
 
-    {{ form_start(formSearch) }}
+    <div class="jumbotron">
+        <div class="container">
+            {{ form_start(formSearch) }}
+            <div class="form-row align-items-end">
+                <div class="col">
+                    {{ form_row(formSearch.nom) }}
+                </div>
+                <div class="col">
+                    {{ form_row(formSearch.codebarre) }}
+                </div>
+                <div class="col">
+                    {{ form_row(formSearch.quantitymax) }}
+                </div>
+            </div>
+            <div class="form-row align-items-end">
+                <div class="col">
+                    {{ form_row(formSearch.localisation) }}
+                </div>
+                <div class="col">
+                    {{ form_row(formSearch.type) }}
+                </div>
+                <div class="col form-group">
+                    {% include 'scan.html.twig' %}
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <button class="btn btn-block btn-primary">Rechercher</button>
+                    </div>
+                </div>
+            </div>
+            {{ form_end(formSearch) }}
+        </div>
+    </div>
 
-    {{ form_row(formSearch.recherche, {'attr': {'placeholder': "Rechercher par nom"}}) }}
+    {% if mediums is not empty %}
+        <div class="row flex">
+            {% for medium in mediums %}
+                <div class="col-4">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title text-right">
+                                Medium n°{{ medium.id }}
+                                <small><div>Code Barre :<br> {{ medium.codebarre }}</div></small>
+                            </h5>
+                                <img src="https://picsum.photos/200?random={{ medium.id }}" alt="card-img-top" style="width: 100%; height:auto;">
+                            <br><br>
+                            <div class="text-center">
+                                <div>Nom : {{ medium.nom }}</div>
+                                <div>Type : {{ medium.typeAsString(medium.type) }}</div>
+                                <div>Localisation : {{ medium.localisationAsString(medium.localisation) }} </div>
+                                <div>Quantité : {{ medium.quantity }} </div>
+                                {% if medium.quantity == 0 %}
+                                    <span class="badge badge-danger">STOCK EPUISE</span>
+                                {% elseif medium.quantity < 10 %}
+                                    <span class="badge badge-warning">STOCK PRESQUE EPUISE</span>
+                                {% endif %}
+                            </div>
+                            <br>
+                            <div class="text-center">
+                                <a type="button" class="text-primary btn btn-outline-primary" href="{{ path('app_medium_view',{'id': medium.id }) }}" >Consulter</a>
+                                <a type="button" class="text-primary btn btn-outline-primary" href="{{ path('app_medium_edit_quantity',{'id': medium.id }) }}" >Modifier la quantité</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <h4 class="text-center">Aucune donnée n'a été trouvée ...</h4>
+    {% endif %}
 
-    {{ form_end(formSearch) }}
-
-    <table>
-    {% for element in medium %}
-        <tr>
-            <td>{{ element.nom }}</td>
-            <td>{{ element.description }}</td>
-            <td>{{ element.type }}</td>
-            <td>{{ element.localisation }}</td>
-            <td>
-                <form action="{{ path('form_edit',{'id' : element.id}) }}">
-                    <input type="submit" value="Modifier"/>
-                </form>
-            </td>
-            <td>
-                <form action="{{ path('form_suppr',{'id' : element.id}) }}">
-                    <input type="submit" value="Supprimer"/>
-                </form>
-            </td>
-        </tr>
-    {% endfor %}
-    </table>
-
-
-    <h1>Modification de la base médium</h1>
-
-        <form action="{{ path('form_add') }}">
-            <input type="submit" value="Ajout" />
-        </form>
-
-
+    <div align="center" class="pagination">
+        {{ knp_pagination_render(mediums) }}
+    </div>
 
 {% endblock %}

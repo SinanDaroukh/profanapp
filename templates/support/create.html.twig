@@ -6,10 +6,35 @@
 
 {% block body %}
 
-    <h1>What about creating a new support ?</h1>
-    {{ form_start(createSupportForm) }}
-    {{ form_widget(createSupportForm) }}
-    <button type="submit" class="btn btn-primary">Create !</button>
+    <h1>Création d'un nouveau support </h1>
+
+    <div class="jumbotron">
+        <div class="container">
+            {{ form_start(createSupportForm) }}
+            <div class="row">
+                <div class="col-md-6">
+                    {{ form_row(createSupportForm.name) }}
+                    {{ form_row(createSupportForm.imagefile) }}
+                    {{ form_row(createSupportForm.description) }}
+                    {{ form_row(createSupportForm.quantity) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_row(createSupportForm.barcode) }}
+                    {{ form_row(createSupportForm.grammage) }}
+                    {{ form_row(createSupportForm.localisation) }}
+                    {{ form_row(createSupportForm.type) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-block btn-primary">Create !</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     {{ form_end(createSupportForm) }}
 
 
